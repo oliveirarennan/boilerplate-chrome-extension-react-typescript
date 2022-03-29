@@ -1,10 +1,15 @@
 const path = require('path')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   mode: 'development',
-  entry: './src/app.tsx',
+  devtool: 'cheap-module-source-map',
+  entry: {
+    popup: path.resolve(__dirname, 'src/popup/popup.tsx')
+  },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist')
   },
   module: {
@@ -16,6 +21,21 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from : path.resolve(__dirname,'src/manifest.json'),
+          to: path.resolve(__dirname,'dist')
+        }
+      ]
+    }),
+    new HtmlWebpackPlugin({
+      title: 'React + TypeScript Chrome Extension',
+      filename: 'popup.html',
+      chunks: ['popup']
+    })
+  ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js']
   }
