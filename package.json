@@ -1,0 +1,12 @@
+{
+  "name": "ext-react-typescript",
+  "version": "1.0.0",
+  "description": "Chrome extension in React with TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Rennan Neves de Oliveira",
+  "license": "MIT"
+}
