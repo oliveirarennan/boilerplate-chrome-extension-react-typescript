@@ -6,11 +6,17 @@ module.exports = {
   mode: 'development',
   devtool: 'cheap-module-source-map',
   entry: {
-    popup: path.resolve(__dirname, 'src/popup/popup.tsx')
+    popup: path.resolve(__dirname, 'src/popup/popup.tsx'),
+    options: path.resolve(__dirname, 'src/options/options.tsx')
   },
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist')
+  },
+  optimization:{
+    splitChunks: {
+      chunks: 'all',
+    }
   },
   module: {
     rules: [
@@ -18,6 +24,14 @@ module.exports = {
         use: 'ts-loader',
         test: /\.tsx?$/,
         exclude: /node_modules/,
+      },
+      {
+        use: ['style-loader', 'css-loader'],
+        test: /\.css$/,
+      },
+      {
+        type: 'asset/resource',
+        test: /\.(jpg|png|woff|woff2|eot|ttg|svg|gif)$/
       }
     ]
   },
@@ -25,18 +39,26 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from : path.resolve(__dirname,'src/manifest.json'),
-          to: path.resolve(__dirname,'dist')
+          from: path.resolve(__dirname, 'src/static'),
+          to: path.resolve(__dirname, 'dist')
         }
       ]
     }),
-    new HtmlWebpackPlugin({
-      title: 'React + TypeScript Chrome Extension',
-      filename: 'popup.html',
-      chunks: ['popup']
-    })
+    ...getHtmlPlugins([
+      'popup',
+      'options',
+    ])
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js']
   }
+}
+
+
+function getHtmlPlugins(chunks) {
+  return chunks.map(chunk => new HtmlWebpackPlugin({
+    title: 'React + TypeScript Chrome Extension',
+    filename: `${chunk}.html`,
+    chunks: [chunk]
+  }))
 }

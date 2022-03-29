@@ -3,8 +3,15 @@
   "name": "React + TypeScript Extension",
   "description": "Chrome extension boilerplate for React + TypeScript",
   "version": "1.0.0",
+  "icons": {
+    "16":"icon.png",
+    "48":"icon.png",
+    "128":"icon.png"
+  },
   "action":{
    "default_popup": "popup.html",
-   "default_title": "React + TypeScript Extension" 
-  }
+   "default_title": "React + TypeScript Extension",
+   "default_icons": "icon.png"
+  },
+  "options_page": "options.html"
 }
