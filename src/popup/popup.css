@@ -1,5 +1,9 @@
 body {
-  width: 400px;
-  height: 400px;
-  background-color: red;
+  width: 320px;
+  height: 512px;
+}
+
+img {
+  width: 250px;
+  height: 250px;
 }
