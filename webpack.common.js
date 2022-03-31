@@ -1,7 +1,8 @@
 const path = require('path')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const {CleanWebpackPlugin} = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const Dotenv = require('dotenv-webpack')
 
 module.exports = {
   entry: {
@@ -14,9 +15,9 @@ module.exports = {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist')
   },
-  optimization:{
+  optimization: {
     splitChunks: {
-      chunks: 'all',
+      chunks: 'all'
     }
   },
   module: {
@@ -24,11 +25,11 @@ module.exports = {
       {
         use: 'ts-loader',
         test: /\.tsx?$/,
-        exclude: /node_modules/,
+        exclude: /node_modules/
       },
       {
         use: ['style-loader', 'css-loader'],
-        test: /\.css$/,
+        test: /\.css$/
       },
       {
         type: 'asset/resource',
@@ -50,16 +51,16 @@ module.exports = {
     }),
     ...getHtmlPlugins([
       'popup',
-      'options',
-    ])
+      'options'
+    ]),
+    new Dotenv()
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js']
   }
 }
 
-
-function getHtmlPlugins(chunks) {
+function getHtmlPlugins (chunks) {
   return chunks.map(chunk => new HtmlWebpackPlugin({
     title: 'React + TypeScript Chrome Extension',
     filename: `${chunk}.html`,
